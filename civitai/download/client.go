@@ -1,7 +1,7 @@
 package download
 
 import (
-	"github.com/zhaolion/civitai-cli/civitai/api"
+	"github.com/Simmons135/civitai-cli/civitai/api"
 )
 
 type Client struct {
