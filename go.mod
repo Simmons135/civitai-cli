@@ -1,4 +1,4 @@
-module github.com/zhaolion/civitai-cli
+module github.com/Simmons135/civitai-cli
 
 go 1.21.6
 
