@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/zhaolion/civitai-cli/cmd"
+	"github.com/Simmons135/civitai-cli/cmd"
 )
 
 func init() {
