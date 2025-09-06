@@ -44,9 +44,9 @@ func (c *Client) ModelDownloadByID(ctx context.Context, modelID, targetDir strin
 		fileDir := dirMapping[files[0].ID]
 		outputFilename := files[0].Name
 		if opt != nil && opt.OutputFilename != "" {
-    			outputFilename = opt.OutputFilename
+    			OutputFilename = opt.OutputFilename
 		}
-		targetFile := filepath.Join(fileDir, outputFilename)
+		targetFile := filepath.Join(fileDir, OutputFilename)
 		return c.downloadFileWithProgressBar(ctx, files[0], targetFile, opt)
 	}
 
@@ -55,9 +55,9 @@ func (c *Client) ModelDownloadByID(ctx context.Context, modelID, targetDir strin
 	for _, file := range files {
     		outputFilename := file.Name
     		if opt != nil && opt.OutputFilename != "" {
-        		outputFilename = opt.OutputFilename
+        		OutputFilename = opt.OutputFilename
     		}
-    		targetFile := filepath.Join(dirMapping[file.ID], outputFilename)
+    		targetFile := filepath.Join(dirMapping[file.ID], OutputFilename)
     		targetFileMapping[file.ID] = targetFile
 	}
 	return c.downloadBatchFileWithProgressBar(ctx, files, targetFileMapping, opt)

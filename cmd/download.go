@@ -5,8 +5,8 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"github.com/zhaolion/civitai-cli/civitai/api"
-	"github.com/zhaolion/civitai-cli/civitai/download"
+	"github.com/Simmons135/civitai-cli/civitai/api"
+	"github.com/Simmons135/civitai-cli/civitai/download"
 )
 
 var (
@@ -68,6 +68,7 @@ func apiModelVerDownloadCmd() *cobra.Command {
 			modelID := fmt.Sprintf("%d", argModelID)
 			err := client.ModelDownloadByID(ctx, modelID, argTargetDir, &download.ModelDownloadOption{
 				VersionIDList: []int64{argVerID},
+				OutputFilename: argOutputFilename,
 			})
 			if err != nil {
 				panic(err)
@@ -77,6 +78,7 @@ func apiModelVerDownloadCmd() *cobra.Command {
 	cmd.PersistentFlags().Int64VarP(&argModelID, "mid", "", 0, "model id")
 	cmd.PersistentFlags().Int64VarP(&argVerID, "vid", "", 0, "model version id")
 	cmd.PersistentFlags().StringVarP(&argTargetDir, "dir", "", ".", "target dir, default is current dir")
+        cmd.PersistentFlags().StringVarP(&argOutputFilename, "filename", "f", "", "Specify a custom filename to save the model as.")
 	_ = cmd.MarkFlagRequired("mid")
 	_ = cmd.MarkFlagRequired("vid")
 
