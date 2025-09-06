@@ -9,8 +9,8 @@ import (
 	"github.com/imroc/req/v3"
 	"github.com/k0kubun/go-ansi"
 	"github.com/schollz/progressbar/v3"
-	"github.com/zhaolion/civitai-cli/civitai/api"
-	"github.com/zhaolion/civitai-cli/civitai/util"
+	"github.com/Simmons135/civitai-cli/civitai/api"
+	"github.com/Simmons135/civitai-cli/civitai/util"
 	"golang.org/x/sync/errgroup"
 )
 
