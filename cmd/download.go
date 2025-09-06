@@ -10,6 +10,7 @@ import (
 )
 
 var (
+	argOutputFilename string
 	argTargetDir string
 )
 
@@ -39,6 +40,7 @@ func apiModelDownloadCmd() *cobra.Command {
 			modelID := fmt.Sprintf("%d", argModelID)
 			err := client.ModelDownloadByID(ctx, modelID, argTargetDir, &download.ModelDownloadOption{
 				VersionNameList: argVerNames,
+				OutputFilename: argOutputFilename,
 			})
 			if err != nil {
 				panic(err)
@@ -48,6 +50,7 @@ func apiModelDownloadCmd() *cobra.Command {
 	cmd.PersistentFlags().Int64VarP(&argModelID, "mid", "", 0, "model id")
 	cmd.PersistentFlags().StringVarP(&argTargetDir, "dir", "", ".", "target dir, default is current dir")
 	cmd.PersistentFlags().StringArrayVarP(&argVerNames, "filter_ver_names", "", []string{}, "filter files by version name")
+	cmd.PersistentFlags().StringVarP(&argOutputFilename, "filename", "f", "", "Specify a custom filename to save the model as.")
 	_ = cmd.MarkFlagRequired("mid")
 	return cmd
 }

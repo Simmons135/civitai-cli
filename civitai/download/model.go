@@ -42,18 +42,32 @@ func (c *Client) ModelDownloadByID(ctx context.Context, modelID, targetDir strin
 	// download single file
 	if len(files) == 1 {
 		fileDir := dirMapping[files[0].ID]
-		targetFile := filepath.Join(fileDir, files[0].Name)
+		outputFilename := files[0].Name
+		if opt != nil && opt.OutputFilename != "" {
+    			outputFilename = opt.OutputFilename
+		}
+		targetFile := filepath.Join(fileDir, outputFilename)
 		return c.downloadFileWithProgressBar(ctx, files[0], targetFile, opt)
 	}
 
 	// download specific versions
 	targetFileMapping := make(map[int]string)
 	for _, file := range files {
-		// TODO: 支持检查目录文件是否已经存在，可以跳过？or ignore
-		targetFile := filepath.Join(dirMapping[file.ID], file.Name)
-		targetFileMapping[file.ID] = targetFile
+    		outputFilename := file.Name
+    		if opt != nil && opt.OutputFilename != "" {
+        		outputFilename = opt.OutputFilename
+    		}
+    		targetFile := filepath.Join(dirMapping[file.ID], outputFilename)
+    		targetFileMapping[file.ID] = targetFile
 	}
 	return c.downloadBatchFileWithProgressBar(ctx, files, targetFileMapping, opt)
+	//targetFileMapping := make(map[int]string)
+	//for _, file := range files {
+		// TODO: 支持检查目录文件是否已经存在，可以跳过？or ignore
+	//	targetFile := filepath.Join(dirMapping[file.ID], file.Name)
+	//	targetFileMapping[file.ID] = targetFile
+	//}
+	//return c.downloadBatchFileWithProgressBar(ctx, files, targetFileMapping, opt)
 }
 
 // downloadFileWithProgressBar download one file with progress bar
@@ -194,6 +208,8 @@ type ModelDownloadOption struct {
 	FileIDList []int64
 	// FileNameList is a list of file name to download. If empty, download all files.
 	FileNameList []string
+	// OutputFilename specifies a custom filename to save the model as.
+	OutputFilename string
 }
 
 func normalizeFileDownloadOption(input *ModelDownloadOption) *ModelDownloadOption {
