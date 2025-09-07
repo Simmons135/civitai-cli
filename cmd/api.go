@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zhaolion/civitai-cli/civitai/api"
+	"github.com/Simmons135/civitai-cli/civitai/api"
 )
 
 var apiRootCmd = &cobra.Command{

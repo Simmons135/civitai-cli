@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/imroc/req/v3"
-	"github.com/zhaolion/civitai-cli/civitai/util"
+	"github.com/Simmons135/civitai-cli/civitai/util"
 )
 
 // FileDownload download file from fileURL to targetFile.

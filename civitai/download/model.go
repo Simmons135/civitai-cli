@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"sync"
+//	"os"
 
 	"github.com/imroc/req/v3"
 	"github.com/k0kubun/go-ansi"
@@ -42,7 +43,7 @@ func (c *Client) ModelDownloadByID(ctx context.Context, modelID, targetDir strin
 	// download single file
 	if len(files) == 1 {
 		fileDir := dirMapping[files[0].ID]
-		outputFilename := files[0].Name
+		OutputFilename := files[0].Name
 		if opt != nil && opt.OutputFilename != "" {
     			OutputFilename = opt.OutputFilename
 		}
@@ -53,7 +54,7 @@ func (c *Client) ModelDownloadByID(ctx context.Context, modelID, targetDir strin
 	// download specific versions
 	targetFileMapping := make(map[int]string)
 	for _, file := range files {
-    		outputFilename := file.Name
+    		OutputFilename := file.Name
     		if opt != nil && opt.OutputFilename != "" {
         		OutputFilename = opt.OutputFilename
     		}
@@ -77,6 +78,7 @@ func (c *Client) downloadFileWithProgressBar(ctx context.Context, file *api.Mode
 
 	bar := progressbar.NewOptions(totalSize,
 		progressbar.OptionSetWriter(ansi.NewAnsiStdout()), //you should install "github.com/k0kubun/go-ansi"
+//		progressbar.OptionSetWriter(os.Stdout),
 		progressbar.OptionEnableColorCodes(true),
 		progressbar.OptionShowCount(),
 		progressbar.OptionShowBytes(true),
@@ -113,6 +115,7 @@ func (c *Client) downloadBatchFileWithProgressBar(ctx context.Context, files []*
 
 	bar := progressbar.NewOptions(totalSize,
 		progressbar.OptionSetWriter(ansi.NewAnsiStdout()), //you should install "github.com/k0kubun/go-ansi"
+//		progressbar.OptionSetWriter(os.Stdout),
 		progressbar.OptionEnableColorCodes(true),
 		progressbar.OptionShowCount(),
 		progressbar.OptionShowBytes(true),
