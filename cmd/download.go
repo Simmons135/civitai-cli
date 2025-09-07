@@ -12,6 +12,7 @@ import (
 var (
 	argOutputFilename string
 	argTargetDir string
+	argLatest bool
 )
 
 var downloadRootCmd = &cobra.Command{
@@ -38,10 +39,29 @@ func apiModelDownloadCmd() *cobra.Command {
 			)
 
 			modelID := fmt.Sprintf("%d", argModelID)
-			err := client.ModelDownloadByID(ctx, modelID, argTargetDir, &download.ModelDownloadOption{
+		//	err := client.ModelDownloadByID(ctx, modelID, argTargetDir, &download.ModelDownloadOption{
+		//		VersionNameList: argVerNames,
+		//		OutputFilename: argOutputFilename,
+		//	})
+			opts := &download.ModelDownloadOption{
 				VersionNameList: argVerNames,
 				OutputFilename: argOutputFilename,
-			})
+			}
+
+			if argLatest {
+				// Fetch model info to get the latest version ID
+				modelInfo, err := client.API().ModelInfoByID(modelID)
+				if err != nil {
+					panic(err)
+				}
+
+				if len(modelInfo.ModelVersions) > 0 {
+					latestVersion := modelInfo.ModelVersions[0] // Assuming the first element is the latest
+					opts.VersionIDList = append(opts.VersionIDList, int64(latestVersion.ID))
+				}
+			}
+
+			err := client.ModelDownloadByID(ctx, modelID, argTargetDir, opts)
 			if err != nil {
 				panic(err)
 			}
@@ -51,6 +71,7 @@ func apiModelDownloadCmd() *cobra.Command {
 	cmd.PersistentFlags().StringVarP(&argTargetDir, "dir", "", ".", "target dir, default is current dir")
 	cmd.PersistentFlags().StringArrayVarP(&argVerNames, "filter_ver_names", "", []string{}, "filter files by version name")
 	cmd.PersistentFlags().StringVarP(&argOutputFilename, "filename", "f", "", "Specify a custom filename to save the model as.")
+	cmd.PersistentFlags().BoolVarP(&argLatest, "latest", "l", true, "Download only the latest version of the model. Defaults to true, enter false to download all versions.")
 	_ = cmd.MarkFlagRequired("mid")
 	return cmd
 }

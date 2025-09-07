@@ -17,3 +17,7 @@ func NewClient(api *api.CivitaiClient) *Client {
 func DefaultClient() *Client {
 	return NewClient(api.NewClient(api.GetAPIToken()))
 }
+// API returns the underlying Civitai API client.
+func (c *Client) API() *api.CivitaiClient {
+	return c.api
+}
